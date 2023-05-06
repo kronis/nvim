@@ -26,14 +26,17 @@ function main() {
 }
 
 function symlink() {
+	echo ""
+	echo "---------- DEBUG : SYMLINK ----------"
   ln -vs "${KRONVIM_CONFIG_DIR}" "${HOME}/.config/nvim"
+	echo "-------------------------------------"
 }
 
 function backup() {
 	echo ""
 	echo "---------- DEBUG : BACKUP ----------"
 	current_date=$(date '+%Y-%m-%d_%H-%M-%S')
-	mv "${HOME}/.config/nvim" "${HOME}/.config/nvim.bak-${current_date}"
+	mv -v "${HOME}/.config/nvim" "${HOME}/.config/nvim.bak-${current_date}"
 	echo "------------------------------------"
 
 }
