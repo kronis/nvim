@@ -6,7 +6,7 @@ declare -xr NVIM_APPNAME="${NVIM_APPNAME:-"kronvim"}"
 declare -xr XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
 declare -xr KRONVIM_RUNTIME_DIR="${KRONVIM_RUNTIME_DIR:-"$XDG_DATA_HOME/kronvim"}"
 declare -xr KRONVIM_BASE_DIR="${KRONVIM_BASE_DIR:-"$KRONVIM_RUNTIME_DIR/$NVIM_APPNAME"}"
-declare -xr KRONVIM_INSTALLER_DIR="${KRONVIM_BASE_DIR:-"$KRONVIM_RUNTIME_DIR/$NVIM_APPNAME/installer"}"
+declare -xr KRONVIM_INSTALLER_DIR="${KRONVIM_INSTALLER_DIR:-"$KRONVIM_BASE_DIR/installer"}"
 
 declare -xr GIT_REMOTE="${GIT_REMOTE:-kronis/nvim.git}"
 
