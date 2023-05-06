@@ -26,7 +26,7 @@ function main() {
 }
 
 function symlink() {
-  ln -s "${KRONVIM_CONFIG_DIR}" "${HOME}/.config/nvim"
+  ln -vs "${KRONVIM_CONFIG_DIR}" "${HOME}/.config/nvim"
 }
 
 function backup() {
@@ -69,7 +69,7 @@ function debug() {
 function clean() {
 	echo ""
 	echo "---------- DEBUG : CLEAN ----------"
-	rm -rf "${KRONVIM_RUNTIME_DIR}"
+	rm -vrf "${KRONVIM_RUNTIME_DIR}"
 	echo "-----------------------------------"
 }
 
