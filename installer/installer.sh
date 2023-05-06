@@ -6,6 +6,7 @@ declare -xr NVIM_APPNAME="${NVIM_APPNAME:-"kronvim"}"
 declare -xr XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
 declare -xr KRONVIM_RUNTIME_DIR="${KRONVIM_RUNTIME_DIR:-"$XDG_DATA_HOME/kronvim"}"
 declare -xr KRONVIM_BASE_DIR="${KRONVIM_BASE_DIR:-"$KRONVIM_RUNTIME_DIR/$NVIM_APPNAME"}"
+declare -xr KRONVIM_INSTALLER_DIR="${KRONVIM_BASE_DIR:-"$KRONVIM_RUNTIME_DIR/$NVIM_APPNAME/installer"}"
 
 declare -xr GIT_REMOTE="${GIT_REMOTE:-kronis/nvim.git}"
 
@@ -23,16 +24,16 @@ function setup_deps () {
   echo ""
   echo "---------- DEBUG : SETUP DEPENDENCIES ----------"
   echo "----------       : NPM                ----------"
-  source "${KRONVIM_BASE_DIR}/setup-npm.sh"
+  source "${KRONVIM_INSTALLER_DIR}/setup-npm.sh"
   echo ""
   echo "----------       : BREW               ----------"
-  source "${KRONVIM_BASE_DIR}/setup-brew.sh"
+  source "${KRONVIM_INSTALLER_DIR}/setup-brew.sh"
   echo ""
   echo "----------       : CARGO              ----------"
-  source "${KRONVIM_BASE_DIR}/setup-cargo.sh"
+  source "${KRONVIM_INSTALLER_DIR}/setup-cargo.sh"
   echo ""
   echo "----------       : LUAROCKS           ----------"
-  source "${KRONVIM_BASE_DIR}/setup-luarocks.sh"
+  source "${KRONVIM_INSTALLER_DIR}/setup-luarocks.sh"
   echo "------------------------------------------------"
 }
 
