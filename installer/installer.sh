@@ -22,7 +22,6 @@ function main() {
 function setup_deps () {
   echo ""
   echo "---------- DEBUG : SETUP DEPENDENCIES ----------"
-  echo ""
   echo "----------       : NPM                ----------"
   source "${KRONVIM_BASE_DIR}/setup-npm.sh"
   echo ""
@@ -50,7 +49,9 @@ function debug() {
 
 function clean() {
   echo ""
-  rm -rf ${KRONVIM_RUNTIME_DIR}
+  echo "---------- DEBUG : CLEAN ----------"
+  rm -rf "${KRONVIM_RUNTIME_DIR}"
+  echo "-----------------------------------"
 }
 
 function clone() {
