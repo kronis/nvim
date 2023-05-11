@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 configs.setup({
-  ensure_installed ={ "c", "lua", "vim", "help", "bash", "css", "html", "javascript", "json", "python", "typescript", "tsx"},
+  ensure_installed ={ "c", "lua", "vim", "vimdoc", "bash", "css", "html", "javascript", "json", "python", "typescript", "tsx"},
 	ignore_install = { }, -- List of parsers to ignore installing
   auto_install = true,
 	highlight = {
