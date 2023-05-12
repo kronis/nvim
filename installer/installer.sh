@@ -12,8 +12,8 @@ declare -xr KRONVIM_CONFIG_DIR="${KRONVIM_CONFIG_DIR:-"$KRONVIM_BASE_DIR/config"
 declare -xr GIT_REMOTE="${GIT_REMOTE:-kronis/nvim.git}"
 
 function main() {
-  logo
-
+  	logo
+	
 	debug
 
 	clean
@@ -22,9 +22,9 @@ function main() {
 
 	setup_deps
 
-	backup
+	# backup
 
-  symlink
+  	symlink
 }
 
 function symlink() {
