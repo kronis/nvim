@@ -94,14 +94,9 @@ return packer.startup(function(use)
 	use({ "nvim-treesitter/nvim-treesitter" })
 	--
 	--	-- Git
-	use({
-		"lewis6991/gitsigns.nvim",
-		requires = {
-			"SmiteshP/nvim-navic",
-		},
-		after = "nvim-web-devicons",
-	})
-	--
+  use ({ 'SmiteshP/nvim-navic' })
+  use ({ 'lewis6991/gitsigns.nvim' })
+
 	--	-- Other stuff I found now
 	use({ "utilyre/barbecue.nvim" })
 	use({ "kylechui/nvim-surround" })
