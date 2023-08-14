@@ -92,6 +92,7 @@ return packer.startup(function(use)
 	--
 	--	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter" })
+	use({ "windwp/nvim-ts-autotag" })
 	--
 	--	-- Git
 	use({ "SmiteshP/nvim-navic" })
