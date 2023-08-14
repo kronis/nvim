@@ -6,8 +6,9 @@ local servers = {
 	--"pyright",
 	-- "bashls",
 	"jsonls",
-  "tsserver",
+	"tsserver",
 	-- "yamlls",
+	"tailwindcss",
 }
 
 local settings = {
