@@ -24,7 +24,7 @@ null_ls.setup({
 		formatting.prettierd,
 		formatting.stylua,
 		formatting.shfmt,
-		formatting.eslint.with({
+		formatting.eslint_d.with({
     cwd = h.cache.by_bufnr(function(params)
         return u.root_pattern(
             ".eslintrc",
@@ -39,7 +39,7 @@ null_ls.setup({
 
     -- Diagnostics
     diagnostics.shellcheck,
-		diagnostics.eslint.with({
+		diagnostics.eslint_d.with({
     cwd = h.cache.by_bufnr(function(params)
         return u.root_pattern(
             ".eslintrc",
@@ -56,7 +56,7 @@ null_ls.setup({
     -- Code Actions
     code_actions.gitsigns,
     code_actions.shellcheck,
-    code_actions.eslint.with({
+    code_actions.eslint_d.with({
     cwd = h.cache.by_bufnr(function(params)
         return u.root_pattern(
             ".eslintrc",
