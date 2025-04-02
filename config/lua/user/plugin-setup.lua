@@ -101,7 +101,7 @@ return packer.startup(function(use)
   --	-- Other stuff I found now
   use({ "utilyre/barbecue.nvim" })
   use({ "kylechui/nvim-surround" })
-  use({ "github/copilot.vim" })
+  -- use({ "github/copilot.vim" })
   use({ "simrat39/symbols-outline.nvim" })
 
   -- Automatically set up your configuration after cloning packer.nvim

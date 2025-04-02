@@ -68,10 +68,10 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
- -- vim.keymap.set("i", "<C-l>", "copilot#Accept()", {expr=true})
-keymap("i", "<C-l>", "copilot#Accept()", {silent =true, expr=true})
-vim.keymap.set("i", "<C-j>", "copilot#Next()", {expr=true})
-vim.keymap.set("i", "<C-k>", "copilot#Previous()", {expr=true})
-        -- imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-        -- let g:copilot_no_tab_map = v:true
+--  -- vim.keymap.set("i", "<C-l>", "copilot#Accept()", {expr=true})
+-- keymap("i", "<C-l>", "copilot#Accept()", {silent =true, expr=true})
+-- vim.keymap.set("i", "<C-j>", "copilot#Next()", {expr=true})
+-- vim.keymap.set("i", "<C-k>", "copilot#Previous()", {expr=true})
+--         -- imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+--         -- let g:copilot_no_tab_map = v:true
 

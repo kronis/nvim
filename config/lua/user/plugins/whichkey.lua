@@ -157,11 +157,11 @@ local mappings = {
       "Workspace Symbols",
     },
   },
-  k = {
-    name = "Copilot",
-    p = { "<cmd>:Copilot panel<cr>", "Panel" },
-    s = { "<cmd>:Copilot status<cr>", "Status" },
-  },
+  -- k = {
+  --   name = "Copilot",
+  --   p = { "<cmd>:Copilot panel<cr>", "Panel" },
+  --   s = { "<cmd>:Copilot status<cr>", "Status" },
+  -- },
   s = {
     name = "Search",
     b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
