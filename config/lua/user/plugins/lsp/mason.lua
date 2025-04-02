@@ -6,7 +6,7 @@ local servers = {
 	--"pyright",
 	-- "bashls",
 	"jsonls",
-	"typescript-language-server", -- Change from ts_ls to typescript-language-server
+	-- "typescript-language-server", -- Change from ts_ls to typescript-language-server
 	-- "yamlls",
 	"tailwindcss",
 }
@@ -45,7 +45,7 @@ for _, server in pairs(servers) do
 	
 	-- Safe setup with server name mapping
 	local server_mapping = {
-		["typescript-language-server"] = "tsserver" -- Map the package name to lspconfig server name
+		-- ["typescript-language-server"] = "tsserver" -- Map the package name to lspconfig server name
 	}
 	
 	local lsp_name = server_mapping[server] or server
