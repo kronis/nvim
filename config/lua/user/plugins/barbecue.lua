@@ -16,7 +16,7 @@ return {
   config = function(_, opts)
     require("barbecue").setup(opts)
     vim.api.nvim_create_autocmd({
-      "AttachedNavic", "BufWinEnter", "CursorHold", "InsertLeave",
+      "LspAttach", "BufWinEnter", "CursorHold", "InsertLeave",
     }, {
       group = vim.api.nvim_create_augroup("barbecue.updater", { clear = true }),
       callback = function() require("barbecue.ui").update() end,
