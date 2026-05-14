@@ -137,10 +137,11 @@ return {
           "cssls",
           "eslint",
         },
-        -- automatic_enable: exclude formatter/linter binaries managed by
-        -- mason-tool-installer so they don't get started as fake LSP servers.
+        -- We install ruff via mason-tool-installer for use as a formatter/linter
+        -- (conform + nvim-lint). Exclude it here so mason-lspconfig doesn't also
+        -- start it as an LSP server on Python buffers — basedpyright covers that.
         automatic_enable = {
-          exclude = { "stylua", "prettierd", "shfmt", "shellcheck", "ruff" },
+          exclude = { "ruff" },
         },
       })
     end,
