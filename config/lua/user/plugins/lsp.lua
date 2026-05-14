@@ -137,11 +137,12 @@ return {
           "cssls",
           "eslint",
         },
-        -- We install ruff via mason-tool-installer for use as a formatter/linter
-        -- (conform + nvim-lint). Exclude it here so mason-lspconfig doesn't also
-        -- start it as an LSP server on Python buffers — basedpyright covers that.
+        -- We install these via mason-tool-installer for use as formatters/linters
+        -- (conform + nvim-lint). nvim-lspconfig has LSP entries for some of them
+        -- (e.g. stylua --lsp, ruff-lsp) — exclude here so mason-lspconfig doesn't
+        -- start them as language servers on top of basedpyright / lua_ls.
         automatic_enable = {
-          exclude = { "ruff" },
+          exclude = { "stylua", "prettierd", "shfmt", "shellcheck", "ruff" },
         },
       })
     end,
