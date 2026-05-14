@@ -1,102 +1,93 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-declare -xr INSTALL_PREFIX="${INSTALL_PREFIX:-"$HOME/.local"}"
-declare -xr NVIM_APPNAME="${NVIM_APPNAME:-"kronvim"}"
+REPO_URL="${REPO_URL:-https://github.com/kronis/nvim.git}"
+INSTALL_DIR="${INSTALL_DIR:-$HOME/.config/kronvim}"
+NVIM_CONFIG="$HOME/.config/nvim"
 
-declare -xr XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
-declare -xr KRONVIM_RUNTIME_DIR="${KRONVIM_RUNTIME_DIR:-"$XDG_DATA_HOME/kronvim"}"
-declare -xr KRONVIM_BASE_DIR="${KRONVIM_BASE_DIR:-"$KRONVIM_RUNTIME_DIR/$NVIM_APPNAME"}"
-declare -xr KRONVIM_INSTALLER_DIR="${KRONVIM_INSTALLER_DIR:-"$KRONVIM_BASE_DIR/installer"}"
-declare -xr KRONVIM_CONFIG_DIR="${KRONVIM_CONFIG_DIR:-"$KRONVIM_BASE_DIR/config"}"
+DEV_MODE=0
 
-declare -xr GIT_REMOTE="${GIT_REMOTE:-kronis/nvim.git}"
+logo() {
+  cat <<'EOF'
 
-function main() {
-  	logo
-	
-	debug
+██╗░░██╗██████╗░░█████╗░███╗░░██╗██╗░░░██╗██╗███╗░░░███╗
+██║░██╔╝██╔══██╗██╔══██╗████╗░██║██║░░░██║██║████╗░████║
+█████═╝░██████╔╝██║░░██║██╔██╗██║╚██╗░██╔╝██║██╔████╔██║
+██╔═██╗░██╔══██╗██║░░██║██║╚████║░╚████╔╝░██║██║╚██╔╝██║
+██║░╚██╗██║░░██║╚█████╔╝██║░╚███║░░╚██╔╝░░██║██║░╚═╝░██║
+╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚══╝░░░╚═╝░░░╚═╝╚═╝░░░░░╚═╝
 
-	clean
-
-	clone
-
-	setup_deps
-
-	# backup
-
-  	symlink
+EOF
 }
 
-function symlink() {
-	echo ""
-	echo "---------- DEBUG : SYMLINK ----------"
-  ln -vs "${KRONVIM_CONFIG_DIR}" "${HOME}/.config/nvim"
-	echo "-------------------------------------"
+parse_args() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --dev) DEV_MODE=1 ;;
+      -h|--help)
+        echo "Usage: installer.sh [--dev]"
+        echo "  --dev   Symlink ~/.config/nvim to this repo (for development)"
+        exit 0
+        ;;
+      *) echo "Unknown arg: $1" >&2; exit 1 ;;
+    esac
+    shift
+  done
 }
 
-function backup() {
-	echo ""
-	echo "---------- DEBUG : BACKUP ----------"
-	current_date=$(date '+%Y-%m-%d_%H-%M-%S')
-	mv -v "${HOME}/.config/nvim" "${HOME}/.config/nvim.bak-${current_date}"
-	echo "------------------------------------"
-
+ensure_deps() {
+  echo "[deps] Ensuring system dependencies via Homebrew..."
+  local script_dir
+  script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  bash "$script_dir/setup-brew.sh"
 }
 
-function setup_deps() {
-	echo ""
-	echo "---------- DEBUG : SETUP DEPENDENCIES ----------"
-	echo "----------       : NPM                ----------"
-	source "${KRONVIM_INSTALLER_DIR}/setup-npm.sh"
-	echo ""
-	echo "----------       : BREW               ----------"
-	source "${KRONVIM_INSTALLER_DIR}/setup-brew.sh"
-	echo ""
-	echo "----------       : CARGO              ----------"
-	source "${KRONVIM_INSTALLER_DIR}/setup-cargo.sh"
-	echo ""
-	echo "----------       : LUAROCKS           ----------"
-	source "${KRONVIM_INSTALLER_DIR}/setup-luarocks.sh"
-	echo "------------------------------------------------"
+install_repo() {
+  if [[ "$DEV_MODE" == "1" ]]; then
+    INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    echo "[install] Dev mode: using repo at $INSTALL_DIR"
+    return
+  fi
+
+  if [[ -d "$INSTALL_DIR/.git" ]]; then
+    echo "[install] Repo exists at $INSTALL_DIR — pulling latest..."
+    git -C "$INSTALL_DIR" pull --ff-only
+  else
+    echo "[install] Cloning $REPO_URL into $INSTALL_DIR..."
+    git clone "$REPO_URL" "$INSTALL_DIR"
+  fi
 }
 
-function debug() {
-	echo ""
-	echo "---------- DEBUG : VARIABLES ----------"
-	echo "INSTALL_PREFIX: ${INSTALL_PREFIX}"
-	echo "NVIM_APPNAME: ${NVIM_APPNAME}"
-	echo "XDG_DATA_HOME: ${XDG_DATA_HOME}"
-	echo "KRONVIM_RUNTIME_DIR: ${KRONVIM_RUNTIME_DIR}"
-	echo "KRONVIM_BASE_DIR: ${KRONVIM_BASE_DIR}"
-	echo "---------------------------------------"
+link_config() {
+  local target="$INSTALL_DIR/config"
+
+  if [[ ! -d "$target" ]]; then
+    echo "[link] ERROR: $target does not exist" >&2
+    exit 1
+  fi
+
+  if [[ -L "$NVIM_CONFIG" ]]; then
+    echo "[link] Replacing existing symlink at $NVIM_CONFIG"
+    rm "$NVIM_CONFIG"
+  elif [[ -e "$NVIM_CONFIG" ]]; then
+    local backup="$NVIM_CONFIG.bak-$(date +%Y%m%d-%H%M%S)"
+    echo "[link] Backing up existing $NVIM_CONFIG → $backup"
+    mv "$NVIM_CONFIG" "$backup"
+  fi
+
+  mkdir -p "$(dirname "$NVIM_CONFIG")"
+  ln -s "$target" "$NVIM_CONFIG"
+  echo "[link] Symlinked $NVIM_CONFIG → $target"
 }
 
-function clean() {
-	echo ""
-	echo "---------- DEBUG : CLEAN ----------"
-	rm -vrf "${KRONVIM_RUNTIME_DIR}"
-	echo "-----------------------------------"
-}
-
-function clone() {
-	echo ""
-	echo "---------- DEBUG : CLONING ----------"
-	if ! git clone --branch main \
-		"https://github.com/${GIT_REMOTE}" "$KRONVIM_BASE_DIR"; then
-		echo "Failed to clone repository. Installation failed."
-		exit 1
-	fi
-	echo "-------------------------------------"
-}
-
-function logo() {
+main() {
+  logo
+  parse_args "$@"
+  ensure_deps
+  install_repo
+  link_config
   echo ""
-  echo "██╗░░██╗██████╗░░█████╗░███╗░░██╗██╗░░░██╗██╗███╗░░░███╗"
-  echo "██║░██╔╝██╔══██╗██╔══██╗████╗░██║██║░░░██║██║████╗░████║"
-  echo "█████═╝░██████╔╝██║░░██║██╔██╗██║╚██╗░██╔╝██║██╔████╔██║"
-  echo "██╔═██╗░██╔══██╗██║░░██║██║╚████║░╚████╔╝░██║██║╚██╔╝██║"
-  echo "██║░╚██╗██║░░██║╚█████╔╝██║░╚███║░░╚██╔╝░░██║██║░╚═╝░██║"
-  echo "╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░╚═╝░░╚══╝░░░╚═╝░░░╚═╝╚═╝░░░░░╚═╝"
-  echo ""
+  echo "Done. Launch nvim — lazy.nvim will install plugins on first run."
 }
-main
+
+main "$@"
